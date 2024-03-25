@@ -1,25 +1,21 @@
-package com.sovworks.eds.android.filemanager.activities;
+package com.sovworks.eds.android.filemanager.activities
 
-import com.sovworks.eds.android.navigdrawer.DrawerController;
-import com.sovworks.eds.locations.Location;
+import com.sovworks.eds.android.navigdrawer.DrawerController
+import com.sovworks.eds.locations.Location
 
-public class FileManagerActivity extends FileManagerActivityBase
-{
-    public static void openFileManager(FileManagerActivity fm, Location location, int scrollPosition)
-    {
-        fm.goTo(location, scrollPosition);
+class FileManagerActivity : FileManagerActivityBase() {
+    override fun createDrawerController(): DrawerController {
+        return DrawerController(this)
     }
 
-    @Override
-    protected DrawerController createDrawerController()
-    {
-        return new DrawerController(this);
+    override fun showPromoDialogIfNeeded() {
+        if (_settings?.lastViewedPromoVersion!! < 211) super.showPromoDialogIfNeeded()
     }
 
-    @Override
-    protected void showPromoDialogIfNeeded()
-    {
-        if(_settings.getLastViewedPromoVersion() < 211)
-            super.showPromoDialogIfNeeded();
+    companion object {
+        @JvmStatic
+        fun openFileManager(fm: FileManagerActivity, location: Location?, scrollPosition: Int) {
+            fm.goTo(location, scrollPosition)
+        }
     }
 }

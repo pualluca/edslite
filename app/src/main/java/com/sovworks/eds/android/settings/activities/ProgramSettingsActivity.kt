@@ -1,15 +1,11 @@
-package com.sovworks.eds.android.settings.activities;
+package com.sovworks.eds.android.settings.activities
 
-import android.app.Fragment;
+import android.app.Fragment
+import com.sovworks.eds.android.activities.SettingsBaseActivity
+import com.sovworks.eds.android.settings.fragments.ProgramSettingsFragment
 
-import com.sovworks.eds.android.activities.SettingsBaseActivity;
-import com.sovworks.eds.android.settings.fragments.ProgramSettingsFragment;
-
-public class ProgramSettingsActivity extends SettingsBaseActivity
-{
-    @Override
-    protected Fragment getSettingsFragment()
-    {
-        return new ProgramSettingsFragment();
+class ProgramSettingsActivity : SettingsBaseActivity() {
+    override fun getSettingsFragment(): Fragment {
+        return ProgramSettingsFragment()
     }
 }
