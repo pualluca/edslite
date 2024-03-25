@@ -1,5 +1,7 @@
 package com.sovworks.eds.android.filemanager.fragments;
 
+import static com.sovworks.eds.android.settings.UserSettingsCommon.FILE_BROWSER_SORT_MODE;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.FragmentManager;
@@ -11,7 +13,6 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.ActionMode;
@@ -25,6 +26,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 
 import com.sovworks.eds.android.Logger;
 import com.sovworks.eds.android.R;
@@ -81,8 +84,6 @@ import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.Subject;
 
-import static com.sovworks.eds.android.settings.UserSettingsCommon.FILE_BROWSER_SORT_MODE;
-
 public abstract class FileListViewFragmentBase extends RxFragment implements
         SortDialog.SortingReceiver,
         FileManagerFragment,
@@ -114,53 +115,44 @@ public abstract class FileListViewFragmentBase extends RxFragment implements
             _scrollPosition = savedInstanceState.getInt(ARG_SCROLL_POSITION, 0);
     }
 
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState)
+    private static void addSrcDstsFromClipItem(
+            LocationsManager lm,
+            ClipData.Item item,
+            Location dstLocation,
+            Collection<SrcDstCollection> cols,
+            boolean move) throws Exception
     {
-        Logger.debug(TAG + " onCreateView");
-        View view = inflater.inflate(R.layout.file_list_view_fragment, container, false);
-        _selectedFileEditText = view.findViewById(R.id.selected_file_edit_text);
-        _listView = view.findViewById(android.R.id.list);
-        if(showSelectedFilenameEditText())
-        {
-            _selectedFileEditText.setVisibility(View.VISIBLE);
-            _selectedFileEditText.addTextChangedListener(new TextWatcher()
-            {
-                public void afterTextChanged(Editable arg0)
-                {
-                    if(arg0 == null || _changingSelectedFileText)
-                        return;
-                    String s = arg0.toString();
-                    if(s.isEmpty())
-                    {
-                        if(isInSelectionMode())
-                            stopSelectionMode();
-                    }
-                    else
-                    {
-                        if(isInSelectionMode())
-                        {
-                            clearSelectedFlag();
-                            _actionMode.invalidate();
-                        }
-                        else
-                            startSelectionMode();
-                    }
-                }
-
-                public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3)
-                {
-                }
-
-                public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3)
-                {
-                }
-            });
-        }
+        Uri uri = item.getUri();
+        if (!MainContentProvider.isClipboardUri(uri))
+            return;
+        Location srcLoc = lm.getLocation(MainContentProvider.getLocationUriFromProviderUri(uri));
+        if(move && srcLoc.getFS() == dstLocation.getFS())
+            cols.add(new SrcDstSingle(srcLoc, dstLocation));
         else
-            _selectedFileEditText.setVisibility(View.GONE);
-        _currentPathTextView = view.findViewById(R.id.current_path_text);
-        return view;
+        {
+            SrcDstRec sdr = new SrcDstRec(new SrcDstSingle(srcLoc, dstLocation));
+            sdr.setIsDirLast(false);//move);
+            cols.add(sdr);
+        }
+        /*Cursor cur = cr.query(uri, null, null, null, null);
+        if(cur!=null)
+        {
+            try
+            {
+                int ci = cur.getColumnIndex(MainContentProvider.COLUMN_LOCATION);
+                while (cur.moveToNext())
+                {
+                    Location srcLoc = lm.getTargetLocation(Uri.parse(cur.getString(ci)));
+                    SrcDstRec sdr = new SrcDstRec(srcLoc, dstLocation);
+                    sdr.setIsDirLast(isDirLast);
+                    cols.add(sdr);
+                }
+            }
+            finally
+            {
+                cur.close();
+            }
+        }*/
     }
 
     @Override
@@ -1302,44 +1294,53 @@ public abstract class FileListViewFragmentBase extends RxFragment implements
         return cols.isEmpty() ? null : new SrcDstGroup(cols);
     }
 
-    private static void addSrcDstsFromClipItem(
-            LocationsManager lm,
-            ClipData.Item item,
-            Location dstLocation,
-            Collection<SrcDstCollection> cols,
-            boolean move) throws Exception
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        Uri uri = item.getUri();
-        if(uri == null || !MainContentProvider.isClipboardUri(uri))
-            return;
-        Location srcLoc = lm.getLocation(MainContentProvider.getLocationUriFromProviderUri(uri));
-        if(move && srcLoc.getFS() == dstLocation.getFS())
-            cols.add(new SrcDstSingle(srcLoc, dstLocation));
-        else
+        Logger.debug(TAG + " onCreateView");
+        View view = inflater.inflate(R.layout.file_list_view_fragment, container, false);
+        _selectedFileEditText = view.findViewById(R.id.selected_file_edit_text);
+        _listView = view.findViewById(android.R.id.list);
+        if(showSelectedFilenameEditText())
         {
-            SrcDstRec sdr = new SrcDstRec(new SrcDstSingle(srcLoc, dstLocation));
-            sdr.setIsDirLast(false);//move);
-            cols.add(sdr);
-        }
-        /*Cursor cur = cr.query(uri, null, null, null, null);
-        if(cur!=null)
-        {
-            try
+            _selectedFileEditText.setVisibility(View.VISIBLE);
+            _selectedFileEditText.addTextChangedListener(new TextWatcher()
             {
-                int ci = cur.getColumnIndex(MainContentProvider.COLUMN_LOCATION);
-                while (cur.moveToNext())
+                public void afterTextChanged(Editable arg0)
                 {
-                    Location srcLoc = lm.getTargetLocation(Uri.parse(cur.getString(ci)));
-                    SrcDstRec sdr = new SrcDstRec(srcLoc, dstLocation);
-                    sdr.setIsDirLast(isDirLast);
-                    cols.add(sdr);
+                    if(arg0 == null || _changingSelectedFileText)
+                        return;
+                    String s = arg0.toString();
+                    if(s.isEmpty())
+                    {
+                        if(isInSelectionMode())
+                            stopSelectionMode();
+                    }
+                    else
+                    {
+                        if(isInSelectionMode())
+                        {
+                            clearSelectedFlag();
+                            _actionMode.invalidate();
+                        }
+                        else
+                            startSelectionMode();
+                    }
                 }
-            }
-            finally
-            {
-                cur.close();
-            }
-        }*/
+
+                public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3)
+                {
+                }
+
+                public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3)
+                {
+                }
+            });
+        }
+        else
+            _selectedFileEditText.setVisibility(View.GONE);
+        _currentPathTextView = view.findViewById(R.id.current_path_text);
+        return view;
     }
 
     @SuppressWarnings("SameParameterValue")

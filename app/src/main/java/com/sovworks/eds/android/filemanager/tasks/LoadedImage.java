@@ -1,11 +1,16 @@
 package com.sovworks.eds.android.filemanager.tasks;
 
+import static com.sovworks.eds.android.filemanager.fragments.PreviewFragment.calcSampleSize;
+import static com.sovworks.eds.android.filemanager.fragments.PreviewFragment.loadDownsampledImage;
+import static com.sovworks.eds.android.filemanager.fragments.PreviewFragment.loadImageParams;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.os.PowerManager;
-import android.support.media.ExifInterface;
+
+import androidx.exifinterface.media.ExifInterface;
 
 import com.drew.imaging.ImageMetadataReader;
 import com.drew.metadata.Directory;
@@ -20,10 +25,6 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import io.reactivex.Single;
-
-import static com.sovworks.eds.android.filemanager.fragments.PreviewFragment.calcSampleSize;
-import static com.sovworks.eds.android.filemanager.fragments.PreviewFragment.loadDownsampledImage;
-import static com.sovworks.eds.android.filemanager.fragments.PreviewFragment.loadImageParams;
 
 public class LoadedImage
 {

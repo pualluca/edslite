@@ -11,7 +11,8 @@ import android.os.Parcelable;
 import android.provider.BaseColumns;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import com.sovworks.eds.fs.FileSystem;
 import com.sovworks.eds.fs.RandomAccessIO;
@@ -79,8 +80,8 @@ public class ContentResolverFs implements FileSystem
 		Bundle extras = intent.getExtras();
 		if(extras.containsKey(Intent.EXTRA_STREAM))
 		{
-			if(Intent.ACTION_SEND.equals(intent.getAction()))		
-				paths.add(fs.new Path( (Uri)extras.getParcelable(Intent.EXTRA_STREAM)));
+			if(Intent.ACTION_SEND.equals(intent.getAction()))
+				paths.add(fs.new Path(extras.getParcelable(Intent.EXTRA_STREAM)));
 			else if(Intent.ACTION_SEND_MULTIPLE.equals(intent.getAction()))
 			{
 				ArrayList<Parcelable> s = extras.getParcelableArrayList(Intent.EXTRA_STREAM);

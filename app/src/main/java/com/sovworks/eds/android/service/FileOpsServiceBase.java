@@ -9,7 +9,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.PowerManager;
-import android.support.v4.content.LocalBroadcastManager;
+
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.sovworks.eds.android.EdsApplication;
 import com.sovworks.eds.android.Logger;
@@ -365,7 +366,7 @@ public abstract class FileOpsServiceBase extends IntentService
 			_currentTask = task;
 			Result result = null;
 			PowerManager pm = (PowerManager)getSystemService(Context.POWER_SERVICE);
-			PowerManager.WakeLock wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "FileOpTask " + intent.toString());
+			PowerManager.WakeLock wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "FileOpTask " + intent);
 			wakeLock.acquire();
 			try
 			{

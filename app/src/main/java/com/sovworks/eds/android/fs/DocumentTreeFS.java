@@ -9,8 +9,9 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.ParcelFileDescriptor;
 import android.provider.DocumentsContract;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
+
+import androidx.annotation.NonNull;
 
 import com.sovworks.eds.android.Logger;
 import com.sovworks.eds.android.service.FileOpsService;
@@ -567,7 +568,7 @@ public class DocumentTreeFS implements FileSystem
             return _documentUri.compareTo(((DocumentPath)another)._documentUri);
         }
 
-        private Uri _documentUri;
+        private final Uri _documentUri;
 
         private class ChildUriReceiver implements ResultReceiver
         {

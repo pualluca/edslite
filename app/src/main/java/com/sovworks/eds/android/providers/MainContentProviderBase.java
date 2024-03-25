@@ -1,6 +1,14 @@
 package com.sovworks.eds.android.providers;
 
 
+import static com.sovworks.eds.android.providers.cursor.FSCursorBase.COLUMN_ID;
+import static com.sovworks.eds.android.providers.cursor.FSCursorBase.COLUMN_IS_FOLDER;
+import static com.sovworks.eds.android.providers.cursor.FSCursorBase.COLUMN_LAST_MODIFIED;
+import static com.sovworks.eds.android.providers.cursor.FSCursorBase.COLUMN_NAME;
+import static com.sovworks.eds.android.providers.cursor.FSCursorBase.COLUMN_PATH;
+import static com.sovworks.eds.android.providers.cursor.FSCursorBase.COLUMN_SIZE;
+import static com.sovworks.eds.android.providers.cursor.FSCursorBase.COLUMN_TITLE;
+
 import android.content.ClipData;
 import android.content.ClipDescription;
 import android.content.ClipboardManager;
@@ -18,16 +26,17 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.ParcelFileDescriptor;
-import android.support.annotation.NonNull;
 import android.util.Base64;
 
+import androidx.annotation.NonNull;
+
 import com.sovworks.eds.android.Logger;
+import com.sovworks.eds.android.filemanager.tasks.LoadPathInfoObservable;
 import com.sovworks.eds.android.helpers.CachedPathInfo;
 import com.sovworks.eds.android.helpers.TempFilesMonitor;
 import com.sovworks.eds.android.helpers.WipeFilesTask;
 import com.sovworks.eds.android.locations.PathsStore;
 import com.sovworks.eds.android.providers.cursor.FSCursor;
-import com.sovworks.eds.android.filemanager.tasks.LoadPathInfoObservable;
 import com.sovworks.eds.android.providers.cursor.SelectionChecker;
 import com.sovworks.eds.android.service.FileOpsService;
 import com.sovworks.eds.android.settings.UserSettings;
@@ -55,14 +64,6 @@ import java.util.Collections;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
-
-import static com.sovworks.eds.android.providers.cursor.FSCursorBase.COLUMN_ID;
-import static com.sovworks.eds.android.providers.cursor.FSCursorBase.COLUMN_IS_FOLDER;
-import static com.sovworks.eds.android.providers.cursor.FSCursorBase.COLUMN_LAST_MODIFIED;
-import static com.sovworks.eds.android.providers.cursor.FSCursorBase.COLUMN_NAME;
-import static com.sovworks.eds.android.providers.cursor.FSCursorBase.COLUMN_PATH;
-import static com.sovworks.eds.android.providers.cursor.FSCursorBase.COLUMN_SIZE;
-import static com.sovworks.eds.android.providers.cursor.FSCursorBase.COLUMN_TITLE;
 
 public abstract class MainContentProviderBase extends ContentProvider
 {

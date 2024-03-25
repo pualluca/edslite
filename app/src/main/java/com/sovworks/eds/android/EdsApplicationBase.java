@@ -1,5 +1,7 @@
 package com.sovworks.eds.android;
 
+import static com.sovworks.eds.android.settings.UserSettings.getSettings;
+
 import android.app.NotificationManager;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -7,9 +9,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.SystemClock;
-import android.support.multidex.MultiDexApplication;
-import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
+
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.multidex.MultiDexApplication;
 
 import com.sovworks.eds.android.helpers.ExtendedFileInfoLoader;
 import com.sovworks.eds.android.providers.MainContentProvider;
@@ -27,8 +30,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static com.sovworks.eds.android.settings.UserSettings.getSettings;
 
 public class EdsApplicationBase extends MultiDexApplication
 {

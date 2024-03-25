@@ -1,8 +1,6 @@
 package com.sovworks.eds.crypto;
 
 import android.annotation.SuppressLint;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.Selection;
@@ -11,6 +9,9 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextWatcher;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.sovworks.eds.android.Logger;
 
@@ -845,7 +846,7 @@ public class EditableSecureBuffer implements Editable
             if (start != 0 && start != length()) {
                 char c = charAt(start - 1);
 
-                if (c != '\n') return true;
+                return c != '\n';
             }
         }
         return false;
@@ -856,7 +857,7 @@ public class EditableSecureBuffer implements Editable
             if (end != 0 && end != length()) {
                 char c = charAt(end - 1);
 
-                if (c != '\n') return true;
+                return c != '\n';
             }
         }
         return false;

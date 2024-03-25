@@ -1,13 +1,14 @@
 package com.sovworks.eds.fs.util;
 
-import android.support.annotation.NonNull;
 
-import java.io.IOException;
+import androidx.annotation.NonNull;
 
 import com.sovworks.eds.fs.Directory;
 import com.sovworks.eds.fs.File;
 import com.sovworks.eds.fs.FileSystem;
 import com.sovworks.eds.fs.Path;
+
+import java.io.IOException;
 
 public abstract class PathWrapper implements Path
 {

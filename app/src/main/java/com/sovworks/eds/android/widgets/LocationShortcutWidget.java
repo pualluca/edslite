@@ -7,8 +7,9 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.annotation.NonNull;
 import android.widget.RemoteViews;
+
+import androidx.annotation.NonNull;
 
 import com.sovworks.eds.android.R;
 import com.sovworks.eds.android.filemanager.activities.FileManagerActivity;
@@ -59,7 +60,7 @@ public class LocationShortcutWidget extends AppWidgetProvider
 	{
 		super.onReceive(context, intent);
 		if (LocationsManager.BROADCAST_LOCATION_CHANGED.equals(intent.getAction()))
-            setWidgetsState(context, (Uri) intent.getParcelableExtra(LocationsManager.PARAM_LOCATION_URI));
+			setWidgetsState(context, intent.getParcelableExtra(LocationsManager.PARAM_LOCATION_URI));
 	}
 
 	private void setWidgetsState(Context context,Uri locationUri)

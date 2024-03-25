@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.util.TypedValue;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
@@ -22,6 +21,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 
 import com.sovworks.eds.android.Logger;
 import com.sovworks.eds.android.R;
@@ -86,9 +87,9 @@ public abstract class LocationListBaseFragment extends ListFragment
             //if(back!=null)
             //    back.setState(item.isSelected ? new int[]{android.R.attr.state_focused } : new int[0]);
 
-            TextView tv = ((TextView)v.findViewById(android.R.id.text1));
+            TextView tv = v.findViewById(android.R.id.text1);
             tv.setText(item.location.getTitle());
-            ImageView iv = (ImageView)v.findViewById(android.R.id.icon);
+            ImageView iv = v.findViewById(android.R.id.icon);
             if(iv!=null)
                 iv.setImageDrawable(item.getIcon());
             return v;
