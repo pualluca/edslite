@@ -6,6 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.sovworks.eds.android"
+        namespace "com.sovworks.eds.android"
         minSdkVersion 14
         targetSdkVersion 28
         versionCode 237
