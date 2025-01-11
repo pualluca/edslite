@@ -1,15 +1,14 @@
-package com.sovworks.eds.android;
+package com.sovworks.eds.android
 
-import android.content.Context;
+import android.content.Context
 
-public class EdsApplication extends EdsApplicationBase
-{
+class EdsApplication : EdsApplicationBase() {
 
-    public static void stopProgram(Context context, boolean exitProcess)
-    {
-        stopProgramBase(context, exitProcess);
-        if(exitProcess)
-            exitProcess();
+    companion object {
+        @JvmStatic
+        fun stopProgram(context: Context?, exitProcess: Boolean) {
+            stopProgramBase(context, exitProcess)
+            if (exitProcess) exitProcess()
+        }
     }
-
 }

@@ -10,7 +10,7 @@ android {
     defaultConfig {
         applicationId "com.sovworks.eds.android"
         namespace "com.sovworks.eds.android"
-        minSdkVersion 14
+        minSdkVersion 24
         versionCode 237
         versionName "2.0.0.237"
         multiDexEnabled true

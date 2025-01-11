@@ -1,25 +1,21 @@
-package com.sovworks.eds.android.errors;
+package com.sovworks.eds.android.errors
 
-import android.content.Context;
+import android.content.Context
+import com.sovworks.eds.android.R
 
-import com.sovworks.eds.android.R;
+class InputOutputException : UserException {
+    constructor(context: Context?) : super(context, R.string.err_input_output)
 
-public class InputOutputException extends UserException
-{	
+    constructor(context: Context?, cause: Throwable?) : super(
+        context,
+        R.string.err_input_output,
+        cause
+    )
 
-	public InputOutputException(Context context)
-	{
-		super(context,R.string.err_input_output);
-	}
-	
-	public InputOutputException(Context context,Throwable cause)
-	{
-		super(context,R.string.err_input_output,cause);
-	}
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
+    companion object {
+        /**
+         *
+         */
+        private const val serialVersionUID = 1L
+    }
 }

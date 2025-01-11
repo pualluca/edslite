@@ -1,21 +1,14 @@
-package com.sovworks.eds.android.errors;
+package com.sovworks.eds.android.errors
 
-import android.content.Context;
+import android.content.Context
+import com.sovworks.eds.android.R
 
-import com.sovworks.eds.android.R;
-
-public class NoFreeSpaceLeftException extends UserException
-{	
-
-	public NoFreeSpaceLeftException(Context context)
-	{
-		super(context,R.string.no_free_space_left);
-	}
-
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
+class NoFreeSpaceLeftException(context: Context?) :
+    UserException(context, R.string.no_free_space_left) {
+    companion object {
+        /**
+         *
+         */
+        private const val serialVersionUID = 1L
+    }
 }
