@@ -759,7 +759,7 @@ public class Util
 	 */
 	public static void skip(InputStream input, long num) throws IOException
 	{
-		int res = 0;
+		long res = 0;
 		while (res < num)
 		{
 			final long tmp = input.skip(num - res);
