@@ -70,7 +70,7 @@ class AskOverwriteDialog : RxDialogFragment() {
         lifecycle().filter
         (Predicate<FragmentEvent> { event: FragmentEvent -> event == RESUME }).firstElement
         ().subscribe
-        (Consumer { res: FragmentEvent? -> askNextRecord() }, io.reactivex.functions.Consumer<kotlin.Throwable?> { err: Throwable? ->
+        (Consumer { res: FragmentEvent? -> askNextRecord() }, { err ->
             if (err !is CancellationException) Logger.log(err)
         })
     }
@@ -170,7 +170,7 @@ class AskOverwriteDialog : RxDialogFragment() {
                 res.srcName,
                 res.dstName
             )
-        }, io.reactivex.functions.Consumer<kotlin.Throwable?> { err: Throwable? ->
+        }, { err ->
             if (err !is CancellationException) Logger.showAndLog(context, err)
         })
     }

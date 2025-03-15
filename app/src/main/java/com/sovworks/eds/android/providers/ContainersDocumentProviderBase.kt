@@ -68,15 +68,12 @@ abstract class ContainersDocumentProviderBase : DocumentsProvider() {
     override fun getDocumentType(documentId: String): String {
         try {
             val loc = locationsManager.getLocation(getLocationUriFromDocumentId(documentId))
-            return create(loc).map<String>(Function { cpi: CachedPathInfo ->
+            return create(loc).map<String> { cpi: CachedPathInfo ->
                 if (cpi.isFile) FileOpsService.getMimeTypeFromExtension(
                     context,
                     StringPathUtil(cpi.name).fileExtension
                 ) else Document.MIME_TYPE_DIR
-            }
-            ).subscribeOn
-            (Schedulers.io()).blockingGet
-            ()
+            }.subscribeOn(Schedulers.io()).blockingGet()
         } catch (e: Exception) {
             Logger.log(e)
             throw IllegalArgumentException("Wrong document uri", e)

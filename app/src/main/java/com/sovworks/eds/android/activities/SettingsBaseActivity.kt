@@ -14,10 +14,11 @@ abstract class SettingsBaseActivity : Activity() {
         if (UserSettings.getSettings(this).isFlagSecureEnabled) CompatHelper.setWindowFlagSecure(
             this
         )
-        if (savedInstanceState == null) fragmentManager.beginTransaction
-        ().add
-        (android.R.id.content, getSettingsFragment(), SettingsBaseActivity.Companion.SETTINGS_FRAGMENT_TAG).commit
-        ()
+        if (savedInstanceState == null) {
+            fragmentManager.beginTransaction()
+                .add(android.R.id.content, getSettingsFragment(), SETTINGS_FRAGMENT_TAG)
+                .commit()
+        }
     }
 
     protected abstract val settingsFragment: Fragment

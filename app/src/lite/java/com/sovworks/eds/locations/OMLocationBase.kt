@@ -48,8 +48,8 @@ abstract class OMLocationBase : LocationBase, OMLocation, Cloneable {
 
         private var _pass: String? = null
         override var customKDFIterations: Int = 0
-            set(val) {
-                field = `val`
+            set(value) {
+                field = value
             }
 
         companion object {

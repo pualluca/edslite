@@ -31,7 +31,7 @@ interface Location : Cloneable {
 
         fun useExtFileManager(): Boolean
 
-        fun setUseExtFileManager(`val`: Boolean)
+        fun setUseExtFileManager(value: Boolean)
     }
 
     class DefaultExternalSettings : ExternalSettings {
@@ -55,11 +55,11 @@ interface Location : Cloneable {
             return false
         }
 
-        override fun setUseExtFileManager(`val`: Boolean) {}
+        override fun setUseExtFileManager(value: Boolean) {}
 
         override var isVisibleToUser: Boolean = false
-            set(val) {
-                field = `val`
+            set(value) {
+                field = value
             }
     }
 

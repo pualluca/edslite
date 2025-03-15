@@ -48,8 +48,12 @@ allprojects {
         kotlin {
             target "**/*.kt"
             targetExclude "build/**/*.kt"
-            // by default takes .editorconfig
-            ktfmt()
+            ktlint('1.1.1') {
+                editorConfigOverride([
+                    'ktlint_standard_filename': 'disabled',
+                    'max_line_length': '180'
+                ])
+            }
             trimTrailingWhitespace()
             endWithNewline()
         }

@@ -82,13 +82,13 @@ class FileListDataFragment : RxFragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
         if (requestCode == REQUEST_CODE_OPEN_LOCATION) {
             if (resultCode != Activity.RESULT_OK) activity.intent = Intent()
-            lifecycle().filter
-            (Predicate<FragmentEvent> { event: FragmentEvent -> event == RESUME }).firstElement
-            ().subscribe
-            (Consumer { isResumed: FragmentEvent? -> loadLocation(null, false) },
-            Consumer { err: Throwable? ->
-                if (err !is CancellationException) Logger.log(err)
-            })
+            lifecycle()
+                .filter { event: FragmentEvent -> event == RESUME }
+                .firstElement()
+                .subscribe(
+                    { loadLocation(null, false) },
+                    { err -> if (err !is CancellationException) Logger.log(err) }
+                )
         } else super.onActivityResult(requestCode, resultCode, data)
     }
 

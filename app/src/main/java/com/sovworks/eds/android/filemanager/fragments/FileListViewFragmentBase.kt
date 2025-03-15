@@ -125,7 +125,7 @@ abstract class FileListViewFragmentBase : RxFragment(),
 
                 FinishedLoading -> if (_isReadingLocation) setLocationNotLoading()
             }
-        }, io.reactivex.functions.Consumer<kotlin.Throwable?> { err: Throwable? ->
+        }, { err ->
             if (err !is CancellationException) Logger.log(err)
         })
     }
@@ -273,7 +273,7 @@ abstract class FileListViewFragmentBase : RxFragment(),
             val adapter = adapter
             if (adapter != null) adapter.add(res)
             newRecordCreated(res)
-        }, io.reactivex.functions.Consumer<kotlin.Throwable?> { err: Throwable? ->
+        }, { err ->
             if (err !is CancellationException) Logger.log(err)
         })
     }
@@ -316,7 +316,7 @@ abstract class FileListViewFragmentBase : RxFragment(),
                     if (locToOpen != null) lifecycle().filter
                     (Predicate<FragmentEvent> { event: FragmentEvent -> event == RESUME }).firstElement
                     ().subscribe
-                    (Consumer { res: FragmentEvent? -> openLocation(locToOpen) }, io.reactivex.functions.Consumer<kotlin.Throwable?> { err: Throwable? ->
+                    (Consumer { res: FragmentEvent? -> openLocation(locToOpen) }, { err ->
                         if (err !is CancellationException) Logger.log(err)
                     })
                 } catch (e: Throwable) {
@@ -426,7 +426,7 @@ abstract class FileListViewFragmentBase : RxFragment(),
         (Predicate<List<BrowserRecord?>> { records: List<BrowserRecord?> -> !records.isEmpty() }).compose<List<BrowserRecord>>
         (bindToLifecycle<List<BrowserRecord>>()).observeOn
         (AndroidSchedulers.mainThread()).subscribe
-        (Consumer { collection: List<BrowserRecord?> -> adapter.addAll(collection) }, io.reactivex.functions.Consumer<kotlin.Throwable?> { err: Throwable? ->
+        (Consumer { collection: List<BrowserRecord?> -> adapter.addAll(collection) }, { err ->
             if (err !is CancellationException) Logger.log(err)
         })
         if (loadInfo.folder != null) updateCurrentFolderLabel(loadInfo.folder!!)
@@ -450,7 +450,7 @@ abstract class FileListViewFragmentBase : RxFragment(),
             (50, java.util.concurrent.TimeUnit.MILLISECONDS, Schedulers.computation()).observeOn
             (AndroidSchedulers.mainThread()).compose
             (bindToLifecycle<Any>()).subscribe
-            (Action { scrollList(sp) }, io.reactivex.functions.Consumer<kotlin.Throwable?> { err: Throwable? -> })
+            (Action { scrollList(sp) }, { err -> })
         }
         if (TEST_READING_OBSERVABLE != null) TEST_READING_OBSERVABLE!!.onNext(false)
     }
@@ -920,7 +920,7 @@ abstract class FileListViewFragmentBase : RxFragment(),
                             act.setResult(Activity.RESULT_OK, i)
                             act.finish()
                         }
-                    }, io.reactivex.functions.Consumer<kotlin.Throwable?> { err: Throwable? ->
+                    }, { err ->
                         if (err !is CancellationException) Logger.log(err)
                     })
                     return
