@@ -12,9 +12,9 @@ class OpeningOptionsActivity : SettingsBaseActivity() {
         val frag =
             fragmentManager.findFragmentByTag(SETTINGS_FRAGMENT_TAG) as PropertiesHostWithStateBundle
         try {
-            frag.getPropertiesView().saveProperties()
+            frag.propertiesView.saveProperties()
             val res = Intent()
-            res.putExtras(frag.getState())
+            res.putExtras(frag.state)
             setResult(RESULT_OK, res)
             super.onBackPressed()
         } catch (e: Exception) {
